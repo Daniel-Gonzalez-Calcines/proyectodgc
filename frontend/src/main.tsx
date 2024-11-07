@@ -1,7 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client'
+<<<<<<< Updated upstream
 import Login from './pages/Login.tsx'
 //import './index.css'
+=======
+import App from './App.tsx'
+import { Provider } from 'react-redux'
+import { store } from './store/index'
+>>>>>>> Stashed changes
 import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
 
@@ -37,7 +43,13 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
+<<<<<<< Updated upstream
       <Login />
+=======
+      <Provider store={store}>
+        <App />
+      </Provider>
+>>>>>>> Stashed changes
     </ThemeProvider>
   </StrictMode>,
 )

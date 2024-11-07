@@ -1,8 +1,64 @@
+<<<<<<< Updated upstream
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Button} from '@mui/material';
 
 function Login() {
+=======
+import { Box, Button, TextField, Typography } from "@mui/material";
+import LockIcon from '@mui/icons-material/Lock';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom'
+import Alert from '@mui/material/Alert';
+import { useDispatch, useSelector } from 'react-redux'
+import { authActions } from '../store/authSlice';
+import { RootState } from "../store";
+
+
+function Login() {
+
+    const dispatch = useDispatch()
+
+
+    const [data, setData] = useState({ usuario: '', contrasena: '' })
+    const [alert, setAlert] = useState({ message: '', severity: '' })
+    const navigate = useNavigate()
+    const userData = useSelector((state: RootState) => state.authenticator)
+    console.log(userData)
+
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+
+        if (data.usuario === bduser && data.contrasena === bdpasswd) {
+            setAlert({ message: 'Acceso permitido.', severity: 'success' });
+            console.log('Usuario: ', data.usuario, '\nContraseña: ', data.contrasena)
+            dispatch(authActions.login({
+                name: data.usuario, //data.user es el nombre de usuario que ha ingresado el usuario
+                rol: 'administrador'
+            }))
+            navigate('/Home')
+        } else {
+            setAlert({ message: 'Acceso denegado.', severity: 'error' });
+            console.log('Usuario: ', data.usuario, '\nContraseña: ', data.contrasena)
+        }
+    };
+
+    const bduser = 'daniel'
+    const bdpasswd = '1234'
+
+    const boxStyle: React.CSSProperties = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '500px',
+        margin: '20px auto',
+        flexDirection: 'column',
+        marginTop: 200,
+        gap: 10,
+    };
+
+>>>>>>> Stashed changes
     return (
             <Container maxWidth="sm">
                     <Typography variant="h1" color='primary'>
