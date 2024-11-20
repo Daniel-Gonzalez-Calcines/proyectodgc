@@ -31,7 +31,7 @@ const authSlice = createSlice({
         },
         //El reducer logout es cuando el usuario no está autenticado. No hay que hacer ninguna action puesto
         //que no recibimos ningún dato del usuario.
-        logout: () => {
+        logout: () => { //Código anterior: logout: (state) =>
             return initialAuthState; //Código anterior: state = initialAuthState
         }
     }

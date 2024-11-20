@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from '../store/authSlice';
 import { RootState } from "../store";
+import Menu from '../components/Menu';
 
 
 function Login() {
@@ -23,22 +24,23 @@ function Login() {
     const handleSubmit = (e: any) => {
         e.preventDefault()
 
-        if (data.usuario === bduser && data.contrasena === bdpasswd) {
-            setAlert({ message: 'Acceso permitido.', severity: 'success' });
-            console.log('Usuario: ', data.usuario, '\nContraseña: ', data.contrasena)
-            dispatch(authActions.login({
-                name: data.usuario, //data.user es el nombre de usuario que ha ingresado el usuario
-                rol: 'administrador'
-            }))
-            navigate('/Home')
-        } else {
-            setAlert({ message: 'Acceso denegado.', severity: 'error' });
-            console.log('Usuario: ', data.usuario, '\nContraseña: ', data.contrasena)
-        }
+        fetch(`http://localhost:3030/login?user=${data.usuario}&password=${data.contrasena}`)
+            .then(response => response.json())
+            .then(response => {
+                console.log('Lo que nos llega de la base de datos: ')
+                console.log(response.data)
+                if (response.data.length !== 0) {
+                    dispatch(authActions.login({
+                        name: data.usuario,
+                        rol: response.data.rol
+                    }))
+                    navigate('/Home')
+                } else {
+                    setAlert({ message: 'Acceso denegado.', severity: 'error' });
+                    console.log('Usuario: ', data.usuario, '\nContraseña: ', data.contrasena)
+                }
+            })
     };
-
-    const bduser = 'daniel'
-    const bdpasswd = '1234'
 
     const boxStyle: React.CSSProperties = {
         display: 'flex',
@@ -53,7 +55,7 @@ function Login() {
 
     return (
         <>
-
+            <Menu/>
             <Box style={boxStyle}
                 component='form'
                 onSubmit={handleSubmit}
