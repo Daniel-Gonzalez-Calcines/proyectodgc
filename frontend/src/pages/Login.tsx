@@ -6,7 +6,6 @@ import Alert from '@mui/material/Alert';
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from '../store/authSlice';
 import { RootState } from "../store";
-import Menu from '../components/Menu';
 
 
 function Login() {
@@ -55,7 +54,6 @@ function Login() {
 
     return (
         <>
-            <Menu/>
             <Box style={boxStyle}
                 component='form'
                 onSubmit={handleSubmit}
