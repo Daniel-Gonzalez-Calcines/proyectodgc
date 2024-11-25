@@ -7,15 +7,19 @@ function Dashboard() {
 
     const [tableData, setTableData] = useState<itemtype[]>([])
 
-    const getitems = () => {
-        fetch(`http://localhost:3030/GetItem`)
+    const getitems = async () => {
+
+        const response = await fetch('http://localhost:3030/GetItems');
+        const data = await response.json();
+        setTableData(data.data);
+
+
+        /*fetch(`http://localhost:3030/GetItem`)
             .then((response) => response.json())
-            .then((affectedRows: Record<string, itemtype>) => {
-                // Convert the object to an array
-                const itemsArray = Object.values(affectedRows);
-                setTableData(itemsArray);
+            .then((response) => {
+                //setTableData(response);
             })
-            .catch((error) => console.error('Error fetching data:', error));
+            .catch((error) => console.error('Error fetching data:', error));*/
     };
 
     useEffect(() => {
@@ -149,36 +153,49 @@ function Dashboard() {
                 </Grid2>
 
             </Box>
-
-            <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
-                <Table sx={{ minWidth: 650 }} aria-label="Tabla Colecciones">
-                    <TableHead sx={{ backgroundColor: "#0a2837" }}>
-                        <TableRow>
-                            <TableCell></TableCell>
-                            <TableCell sx={{ color: "white" }}>Nombre</TableCell>
-                            <TableCell sx={{ color: "white" }}>Marca</TableCell>
-                            <TableCell sx={{ color: "white" }}>Tipo</TableCell>
-                            <TableCell sx={{ color: "white" }}>Precio</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {tableData.map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>
-                                    <Button onClick={() => handleDeleteItem(row)}>
-                                        <DeleteForeverIcon />
-                                    </Button>
-                                </TableCell>
-                                <TableCell>{row.nombre}</TableCell>
-                                <TableCell>{row.marca}</TableCell>
-                                <TableCell>{row.tipo}</TableCell>
-                                <TableCell>{row.precio}</TableCell>
+            <Box>
+                <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
+                    <Table sx={{ minWidth: 650 }} aria-label="Tabla Colecciones">
+                        <TableHead sx={{ backgroundColor: "#0a2837" }}>
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell sx={{ color: "white" }}>Nombre</TableCell>
+                                <TableCell sx={{ color: "white" }}>Marca</TableCell>
+                                <TableCell sx={{ color: "white" }}>Tipo</TableCell>
+                                <TableCell sx={{ color: "white" }}>Precio</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {tableData.length > 0 ? (
+                                tableData.map((row: itemtype) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell>{row.nombre}</TableCell>
+                                        <TableCell>{row.marca}</TableCell>
+                                        <TableCell>{row.tipo}</TableCell>
+                                        <TableCell>{row.precio}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                variant="outlined"
+                                                color="secondary"
+                                                onClick={() => handleDeleteItem(row)} // Asegúrate de pasar el id
+                                            >
+                                                <DeleteForeverIcon />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={5} align="center">
+                                        No hay datos disponibles.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
+            </Box>
         </>
     );
 }

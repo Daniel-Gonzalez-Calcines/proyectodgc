@@ -3,13 +3,16 @@ const helper = require('../helper')
 const config = require('../config')
 const { Select } = require('@mui/material')
 
-async function getitem() {
-    const query = `SELECT * FROM coleccion`;
-    
-    const result = await db.query(query);
+async function getitem(req, res) {
+    try {
+        const rows = await db.query('SELECT * FROM coleccion');
 
-    return {
-        result
+        const data = helper.emptyOrRows(rows);
+
+        return res.json({ data });
+    } catch (err) {
+        console.error('Error al obtener los datos: ', err.message);
+        return res.status(500).json({ message: 'Error al obtener los datos' });
     }
 }
 
