@@ -1,14 +1,26 @@
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Menu from '../components/Menu';
+import EjemploInforme from "../components/InformeColeccion";
+import { useState } from "react";
 
 function Reports() {
+    const [mostrar, setMostrar] = useState(false);
+
+    const settrue = () => {
+        setMostrar(true);
+        console.log(mostrar);
+    }
 
     return (
         <>
-        <Menu />
-            <Typography>
-                Página Reports de Daniel González Calcines
-            </Typography>
+            <Menu />
+            <Button variant="contained" style={{ marginTop: '50px' }} onClick={settrue}>
+                Generar informe
+            </Button>
+
+            {mostrar ? (
+                <EjemploInforme />
+            ) : null}
         </>
     )
 }
