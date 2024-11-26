@@ -15,13 +15,18 @@ import { RootState } from "../store";
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import PersonIcon from '@mui/icons-material/Person';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AdbIcon from '@mui/icons-material/Adb';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+
+
 
 function Menu() {
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate()
     const userData = useSelector((state: RootState) => state.authenticator)
     const isLoggedin = userData.isAutenticated
+    const rol = userData.userRol
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -48,17 +53,42 @@ function Menu() {
                     </Link>
                 </ListItem>
             </List>
-            <Divider />
+            <List>
+                {rol == 'admin' ? (
+                    <ListItem disablePadding>
+                        <Link to='/Reports' style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Reports" />
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                ) : null}
+            </List>
+            <List>
+                {rol == 'admin' ? (
+                    <ListItem disablePadding>
+                        <Link to='/GestionUsuarios' style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Gestión usuarios" />
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                ) : null}
+            </List>
             <List>
                 <ListItem disablePadding>
-                    <Link to='/Reports' style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Reports" />
-                        </ListItemButton>
-                    </Link>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Ayuda" />
+                    </ListItemButton>
                 </ListItem>
             </List>
         </Box>
@@ -82,7 +112,15 @@ function Menu() {
                         {userData.userName}
                     </Typography>
                     <IconButton>
-                        <PersonIcon />
+                        {rol == 'admin' ? (
+                            <AdminPanelSettingsIcon />
+                        ) : null}
+                        {rol == 'user' ? (
+                            <AdbIcon />
+                        ) : null}
+                        {rol == 'invitado' ? (
+                            <InsertEmoticonIcon />
+                        ) : null}
                     </IconButton>
                 </Toolbar>
             </AppBar>
