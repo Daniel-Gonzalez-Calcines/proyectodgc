@@ -1,4 +1,4 @@
-import { Box, Typography, TextField, Button, Grid2, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Typography, TextField, Button, Grid2, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/Delete';
@@ -147,7 +147,9 @@ function Dashboard() {
                     </Grid2>
 
                     <Grid2 size={12}>
-                        <Button variant='contained' fullWidth type='submit'>Insertar datos</Button>
+                        <Tooltip title="Insertar datos" arrow>
+                            <Button variant='contained' fullWidth type='submit'>Insertar datos</Button>
+                        </Tooltip>
                     </Grid2>
 
                 </Grid2>
