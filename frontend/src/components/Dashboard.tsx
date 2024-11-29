@@ -2,10 +2,14 @@ import { Box, Typography, TextField, Button, Grid2, Paper, Table, TableBody, Tab
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/Delete';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 function Dashboard() {
 
     const [tableData, setTableData] = useState<itemtype[]>([])
+    const userData = useSelector((state: RootState) => state.authenticator)
+    const rol = userData.userRol
 
     const getitems = async () => {
 
@@ -60,6 +64,7 @@ function Dashboard() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        setItem({ nombre: '', marca: '', tipo: '', precio: (0) });
         console.log(item)
         fetch(`http://localhost:3030/addItem?nombre=${item.nombre}&marca=${item.marca}&tipo=${item.tipo}&precio=${item.precio}`)
             .then(response => response.json())
@@ -147,55 +152,95 @@ function Dashboard() {
                     </Grid2>
 
                     <Grid2 size={12}>
-                        <Tooltip title="Insertar datos" arrow>
-                            <Button variant='contained' fullWidth type='submit'>Insertar datos</Button>
-                        </Tooltip>
+                        {rol == 'invitado' ? (
+                            <Button variant='contained' disabled fullWidth type='submit'>Insertar datos</Button>
+                        ) : (
+                            <Tooltip title="Insertar datos" arrow>
+                                <Button variant='contained' fullWidth type='submit'>Insertar datos</Button>
+                            </Tooltip>
+                        )}
                     </Grid2>
 
                 </Grid2>
 
             </Box>
             <Box>
-                <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
-                    <Table sx={{ minWidth: 650 }} aria-label="Tabla Colecciones">
-                        <TableHead sx={{ backgroundColor: "#0a2837" }}>
-                            <TableRow>
-                                <TableCell></TableCell>
-                                <TableCell sx={{ color: "white" }}>Nombre</TableCell>
-                                <TableCell sx={{ color: "white" }}>Marca</TableCell>
-                                <TableCell sx={{ color: "white" }}>Tipo</TableCell>
-                                <TableCell sx={{ color: "white" }}>Precio</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {tableData.length > 0 ? (
-                                tableData.map((row: itemtype) => (
-                                    <TableRow key={row.id}>
-                                        <TableCell>{row.nombre}</TableCell>
-                                        <TableCell>{row.marca}</TableCell>
-                                        <TableCell>{row.tipo}</TableCell>
-                                        <TableCell>{row.precio}</TableCell>
-                                        <TableCell>
-                                            <Button
-                                                variant="outlined"
-                                                color="secondary"
-                                                onClick={() => handleDeleteItem(row)} // Asegúrate de pasar el id
-                                            >
-                                                <DeleteForeverIcon />
-                                            </Button>
+                {rol == 'admin' ? (
+                    <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
+                        <Table sx={{ minWidth: 650 }} aria-label="Tabla Colecciones">
+                            <TableHead sx={{ backgroundColor: "#0a2837" }}>
+                                <TableRow>
+                                    <TableCell sx={{ color: "white" }}>Nombre</TableCell>
+                                    <TableCell sx={{ color: "white" }}>Marca</TableCell>
+                                    <TableCell sx={{ color: "white" }}>Tipo</TableCell>
+                                    <TableCell sx={{ color: "white" }}>Precio</TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {tableData.length > 0 ? (
+                                    tableData.map((row: itemtype) => (
+                                        <TableRow key={row.id}>
+                                            <TableCell>{row.nombre}</TableCell>
+                                            <TableCell>{row.marca}</TableCell>
+                                            <TableCell>{row.tipo}</TableCell>
+                                            <TableCell>{row.precio}</TableCell>
+                                            <TableCell>
+                                                <Tooltip title="Borrar registro" arrow>
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="secondary"
+                                                        onClick={() => handleDeleteItem(row)} // Asegúrate de pasar el id
+                                                    >
+                                                        <DeleteForeverIcon />
+                                                    </Button>
+                                                </Tooltip>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={5} align="center">
+                                            No hay datos disponibles.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            ) : (
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                ) :
+                    <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
+                        <Table sx={{ minWidth: 650 }} aria-label="Tabla Colecciones">
+                            <TableHead sx={{ backgroundColor: "#0a2837" }}>
                                 <TableRow>
-                                    <TableCell colSpan={5} align="center">
-                                        No hay datos disponibles.
-                                    </TableCell>
+                                    <TableCell sx={{ color: "white" }}>Nombre</TableCell>
+                                    <TableCell sx={{ color: "white" }}>Marca</TableCell>
+                                    <TableCell sx={{ color: "white" }}>Tipo</TableCell>
+                                    <TableCell sx={{ color: "white" }}>Precio</TableCell>
                                 </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                            </TableHead>
+                            <TableBody>
+                                {tableData.length > 0 ? (
+                                    tableData.map((row: itemtype) => (
+                                        <TableRow key={row.id}>
+                                            <TableCell>{row.nombre}</TableCell>
+                                            <TableCell>{row.marca}</TableCell>
+                                            <TableCell>{row.tipo}</TableCell>
+                                            <TableCell>{row.precio}</TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={5} align="center">
+                                            No hay datos disponibles.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                }
+
 
             </Box>
         </>

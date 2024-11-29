@@ -1,4 +1,4 @@
-import { Button, Tooltip, Typography } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import Menu from '../components/Menu';
 import EjemploInforme from "../components/InformeColeccion";
 import { useState } from "react";
@@ -15,7 +15,7 @@ function Reports() {
         <>
             <Menu />
 
-            <Tooltip title="Generar informe" arrow>
+            <Tooltip title="Generar informe" arrow placement="bottom">
                 <Button variant="contained" style={{ marginTop: '50px' }} onClick={settrue}>
                     Generar informe
                 </Button>

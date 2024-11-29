@@ -8,20 +8,25 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import { Divider, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, Divider, Tooltip } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { RootState } from "../store";
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import PersonIcon from '@mui/icons-material/Person';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AdbIcon from '@mui/icons-material/Adb';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+
+
 
 function Menu() {
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate()
     const userData = useSelector((state: RootState) => state.authenticator)
     const isLoggedin = userData.isAutenticated
+    const rol = userData.userRol
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -48,15 +53,42 @@ function Menu() {
                     </Link>
                 </ListItem>
             </List>
-            <Divider />
+            <List>
+                {rol == 'admin' ? (
+                    <ListItem disablePadding>
+                        <Link to='/Reports' style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Reports" />
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                ) : null}
+            </List>
+            <List>
+                {rol == 'admin' ? (
+                    <ListItem disablePadding>
+                        <Link to='/GestionUsuarios' style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Gestión usuarios" />
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                ) : null}
+            </List>
             <List>
                 <ListItem disablePadding>
-                    <Link to='/Reports' style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to={'/Gonzalez_Calcines_Daniel_UT3A1 .pdf'} style={{ textDecoration: 'none', color: 'inherit' }} target='_blank'>
                         <ListItemButton>
                             <ListItemIcon>
-                                <InboxIcon />
+                                <HomeIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Reports" />
+                            <ListItemText primary="Ayuda" />
                         </ListItemButton>
                     </Link>
                 </ListItem>
@@ -68,21 +100,31 @@ function Menu() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                        onClick={toggleDrawer(true)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    <Tooltip title="Menu" arrow placement="bottom">
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                            onClick={toggleDrawer(true)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Tooltip>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         {userData.userName}
                     </Typography>
                     <IconButton>
-                        <PersonIcon />
+                        {rol == 'admin' ? (
+                            <AdminPanelSettingsIcon />
+                        ) : null}
+                        {rol == 'user' ? (
+                            <AdbIcon />
+                        ) : null}
+                        {rol == 'invitado' ? (
+                            <InsertEmoticonIcon />
+                        ) : null}
                     </IconButton>
                 </Toolbar>
             </AppBar>
