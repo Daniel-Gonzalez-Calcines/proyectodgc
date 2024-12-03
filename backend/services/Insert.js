@@ -9,6 +9,14 @@ async function insert(data) {
     const result = await db.query(query, values);
 }
 
+async function insertUser(data) {
+    const query = `INSERT INTO usuarios(nombre, login, password, rol) VALUES (?, ?, ?, ?)`;
+    const values = [data.nombre, data.login, data.password, data.rol];
+    
+    const result = await db.query(query, values);
+}
+
 module.exports = {
-    insert
+    insert,
+    insertUser
 }

@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import { ListItemButton, ListItemIcon, ListItemText, Divider, Tooltip } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { RootState } from "../store";
@@ -89,6 +89,18 @@ function Menu() {
                                 <HomeIcon />
                             </ListItemIcon>
                             <ListItemText primary="Ayuda" />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+            </List>
+            <List>
+                <ListItem disablePadding>
+                    <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <HomeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Salir" />
                         </ListItemButton>
                     </Link>
                 </ListItem>
