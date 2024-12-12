@@ -3,7 +3,7 @@ import Home from './pages/Home'
 import Reports from './pages/Reports'
 import ErrorPage from './pages/ErrorPage'
 import Gestion from './pages/GestionUsuarios'
-import Ayuda from './pages/Ayuda'
+import GestionPrestamos from './pages/GestionPrestamos'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: 'GestionUsuarios',
         element: <Gestion />
+      },
+      {
+        path: 'GestionPrestamos',
+        element: <GestionPrestamos />
       }
     ]
   },

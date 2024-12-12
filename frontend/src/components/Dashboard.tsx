@@ -16,24 +16,26 @@ function Dashboard() {
         const response = await fetch('http://localhost:3030/GetItems');
         const data = await response.json();
         setTableData(data.data);
+/*
 
-
-        /*fetch(`http://localhost:3030/GetItem`)
+        fetch(`http://localhost:3030/GetItems`)
             .then((response) => response.json())
             .then((response) => {
-                //setTableData(response);
+                const data = response.json();
+                setTableData(data.data);
             })
-            .catch((error) => console.error('Error fetching data:', error));*/
+            .catch((error) => console.error('Error fetching data:', error));
+            */
     };
 
     useEffect(() => {
         getitems();
     }, []);
-
+/*
     useEffect(() => {
         console.log(tableData);
     }, [tableData]);
-
+*/
     interface itemtype {
         id?: number
         nombre: string
@@ -68,14 +70,14 @@ function Dashboard() {
         console.log(item)
         fetch(`http://localhost:3030/addItem?nombre=${item.nombre}&marca=${item.marca}&tipo=${item.tipo}&precio=${item.precio}`)
             .then(response => response.json())
-        getitems()
+            setTimeout(getitems, 200);
     }
 
     const handleDeleteItem = (item: itemtype) => {
         console.log(item)
         fetch(`http://localhost:3030/deleteItem?id=${item.id}`)
             .then(response => response.json())
-        getitems()
+            setTimeout(getitems, 200);
     }
 
     return (
@@ -152,7 +154,7 @@ function Dashboard() {
                     </Grid2>
 
                     <Grid2 size={12}>
-                        {rol == 'invitado' ? (
+                        {rol != 'admin' ? (
                             <Button variant='contained' disabled fullWidth type='submit'>Insertar datos</Button>
                         ) : (
                             <Tooltip title="Insertar datos" arrow>

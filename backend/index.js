@@ -66,6 +66,16 @@ app.get('/addUsuario', async function (req, next) {
     }
 });
 
+app.get('/addPrestamo', async function (req, next) {
+    console.log(req.query);
+    try {
+        Insert.insertPrestamo(req.query);
+    } catch (err) {
+        console.error(`Error while getting data `, err.message);
+        next(err);
+    }
+});
+
 app.get('/deleteItem', async function (req, next) {
     console.log(req.query);
     try {
@@ -99,6 +109,15 @@ app.get('/GetItems', async (req, res) => {
 app.get('/GetUsers', async (req, res) => {
     try {
         await GetItem.getusers(req, res); // Llama la función getData del archivo items.js
+    } catch (err) {
+        console.error(`Error while getting items: ${err.message}`);
+        res.status(500).json({ message: 'Error al obtener los items' });
+    }
+});
+
+app.get('/GetPrestamos', async (req, res) => {
+    try {
+        await GetItem.getprestamos(req, res); // Llama la función getData del archivo items.js
     } catch (err) {
         console.error(`Error while getting items: ${err.message}`);
         res.status(500).json({ message: 'Error al obtener los items' });

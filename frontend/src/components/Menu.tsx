@@ -52,8 +52,6 @@ function Menu() {
                         </ListItemButton>
                     </Link>
                 </ListItem>
-            </List>
-            <List>
                 {rol == 'admin' ? (
                     <ListItem disablePadding>
                         <Link to='/Reports' style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -66,8 +64,6 @@ function Menu() {
                         </Link>
                     </ListItem>
                 ) : null}
-            </List>
-            <List>
                 {rol == 'admin' ? (
                     <ListItem disablePadding>
                         <Link to='/GestionUsuarios' style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -80,8 +76,18 @@ function Menu() {
                         </Link>
                     </ListItem>
                 ) : null}
-            </List>
-            <List>
+                {rol != 'invitado' ? (
+                    <ListItem disablePadding>
+                        <Link to='/GestionPrestamos' style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Gestión Prestamos" />
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                ) : null}
                 <ListItem disablePadding>
                     <Link to={'/Manual_de_usuario_DAD.pdf'} style={{ textDecoration: 'none', color: 'inherit' }} target='_blank'>
                         <ListItemButton>
@@ -92,8 +98,6 @@ function Menu() {
                         </ListItemButton>
                     </Link>
                 </ListItem>
-            </List>
-            <List>
                 <ListItem disablePadding>
                     <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
                         <ListItemButton>
